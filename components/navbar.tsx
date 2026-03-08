@@ -6,9 +6,10 @@ import { Menu, X, ChevronDown, Globe } from "lucide-react"
 import Link from "next/link"
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "IPTV Pricing", href: "#pricing" },
-  { label: "IPTV Reseller", href: "#reseller" },
+  { label: "Home", href: "/" },
+  { label: "Channels List", href: "/channels-list" },
+  { label: "IPTV Pricing", href: "/#pricing" },
+  { label: "IPTV Reseller", href: "/#reseller" },
   { label: "Contact Us", href: "https://wa.me/212707711512" },
 ]
 
@@ -34,7 +35,7 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="#home" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <h1 className="text-xl font-bold tracking-tight">
               <span className="text-white">Apollo</span> <span className="text-green-500">Group TV</span>
             </h1>
