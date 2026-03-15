@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-border/30 px-4 py-12">
       <div className="mx-auto max-w-6xl">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand */}
           <div>
             <span className="text-xl font-bold tracking-tight">
@@ -94,6 +94,29 @@ export default function Footer() {
               <li className="text-sm text-muted-foreground">
                 Instant IPTV Activation
               </li>
+            </ul>
+          </div>
+
+          {/* Policies */}
+          <div>
+            <h4 className="mb-4 text-sm font-semibold text-foreground">
+              Legal
+            </h4>
+            <ul className="flex flex-col gap-2.5">
+              {[
+                { label: "Privacy Policy", href: "/privacy" },
+                { label: "Refund Policy", href: "/refund" },
+                { label: "Terms & Conditions", href: "/terms" },
+              ].map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
