@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Check, Star, Crown, Shield, MonitorPlay, Zap, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { usePlans, useSiteSettings } from "@/hooks/use-db"
+import { whatsappLinks } from "@/lib/whatsapp-utils"
 import { ComponentType } from "react"
 
 const iconMap: Record<string, ComponentType<any>> = {
@@ -110,7 +111,7 @@ export default function Pricing() {
                   </ul>
 
                   <Link
-                    href={`${settings?.supportWhatsAppUrl || 'https://wa.me/212707711512'}?text=Hello%20Apollo%20Group%20TV,%20I%20want%20to%20subscribe%20to%20the%20${encodeURIComponent(plan.name)}%20plan.`}
+                    href={whatsappLinks.buyPlan(plan.name, plan.price, plan.subtitle)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`mt-auto rounded-xl py-3 text-center text-sm font-semibold transition-all ${plan.popular

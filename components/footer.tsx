@@ -1,6 +1,15 @@
 import Link from "next/link"
+import { whatsappLinks } from "@/lib/whatsapp-utils"
 
 export default function Footer() {
+  const footerLinks = [
+    { label: "Apollo Group TV Home", href: "/" },
+    { label: "IPTV Subscription Pricing", href: "/#pricing" },
+    { label: "IPTV Reseller Program", href: "/#reseller" },
+    { label: "Contact Apollo Group TV", href: "/contact" },
+    { label: "Free IPTV Trial", href: whatsappLinks.footerTrial() },
+  ]
+
   return (
     <footer className="border-t border-border/30 px-4 py-12">
       <div className="mx-auto max-w-6xl">
@@ -24,13 +33,7 @@ export default function Footer() {
               Apollo Group TV Links
             </h4>
             <ul className="flex flex-col gap-2.5">
-              {[
-                { label: "Apollo Group TV Home", href: "#home" },
-                { label: "IPTV Subscription Pricing", href: "#pricing" },
-                { label: "IPTV Reseller Program", href: "#reseller" },
-                { label: "Contact Apollo Group TV", href: "https://wa.me/212707711512" },
-                { label: "Free IPTV Trial", href: "https://wa.me/212707711512?text=I%20want%20a%2024h%20free%20IPTV%20trial" },
-              ].map((link) => (
+              {footerLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
@@ -74,7 +77,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-2.5">
               <li>
                 <Link
-                  href="https://wa.me/212707711512"
+                  href={whatsappLinks.footerContact()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-muted-foreground transition-colors hover:text-primary"

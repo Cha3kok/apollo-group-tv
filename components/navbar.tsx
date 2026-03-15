@@ -8,9 +8,10 @@ import Link from "next/link"
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Channels List", href: "/channels-list" },
+  { label: "Blog", href: "/blog" },
   { label: "IPTV Pricing", href: "/#pricing" },
   { label: "IPTV Reseller", href: "/#reseller" },
-  { label: "Contact Us", href: "https://wa.me/212707711512" },
+  { label: "Contact Us", href: "/contact" },
 ]
 
 const languages = [
@@ -94,9 +95,7 @@ export default function Navbar() {
 
             {/* CTA */}
             <Link
-              href="https://wa.me/212707711512"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/#pricing"
               className="neon-glow rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110"
             >
               Buy IPTV
@@ -149,9 +148,7 @@ export default function Navbar() {
                 ))}
               </div>
               <Link
-                href="https://wa.me/212707711512"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/#pricing"
                 className="neon-glow mt-2 rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-semibold text-primary-foreground"
               >
                 Buy IPTV

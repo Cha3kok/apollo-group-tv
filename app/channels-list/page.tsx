@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Search, Tv, Loader2, ImageOff, ArrowUp, Globe } from 'lucide-react';
+import Navbar from '@/components/navbar';
+import Footer from '@/components/footer';
+import WhatsAppButton from '@/components/whatsapp-button';
 
 export default function ChannelsPage() {
     const [allChannels, setAllChannels] = useState<any[]>([]);
@@ -37,10 +40,12 @@ export default function ChannelsPage() {
     );
 
     return (
-        <div className="min-h-screen bg-[#0B0F13] py-10 px-4 text-[#F8FAFC]">
-            <div className="max-w-7xl mx-auto">
+        <>
+            <Navbar />
+            <div className="min-h-screen bg-[#0B0F13] py-10 px-4 text-[#F8FAFC]">
+                <div className="max-w-7xl mx-auto">
 
-                {/* --- SEO Optimized Header --- */}
+                    {/* --- SEO Optimized Header --- */}
                 <div className="text-center mb-12">
                     <h1 className="text-3xl md:text-6xl font-black text-[#F8FAFC] mb-4 tracking-tighter uppercase italic">
                         Official <span className="text-[#10B981]">Apollo Group TV</span> Channel List
@@ -121,15 +126,18 @@ export default function ChannelsPage() {
                 )}
 
                 {/* --- SEO Footer Text --- */}
-                <footer className="mt-20 pt-10 border-t border-[#30363D] text-[#94A3B8] text-xs leading-relaxed max-w-4xl mx-auto text-center">
+                <section className="mt-20 pt-10 border-t border-[#30363D] text-[#94A3B8] text-xs leading-relaxed max-w-4xl mx-auto text-center">
                     <p>
                         <strong>Apollo Group TV</strong> offers the world's most reliable IPTV channels list.
                         Our subscription features 49,000+ options including high-definition sports, movies, and news from
                         <strong> UK, USA, Canada, and Arabic </strong> networks.
                         Optimized for all streaming devices, Apollo Group TV ensures 99.9% uptime and premium quality.
                     </p>
-                </footer>
+                </section>
             </div>
-        </div>
+            </div>
+            <Footer />
+            <WhatsAppButton />
+        </>
     );
 }
