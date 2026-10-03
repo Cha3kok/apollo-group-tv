@@ -9,6 +9,8 @@ import BlogPostHero from "@/components/blog-post-hero"
 import BlogPostContent from "@/components/blog-post-content"
 import BlogPostRelated from "@/components/blog-post-related"
 import BlogPostCTA from "@/components/blog-post-cta"
+import { JsonLd, breadcrumb } from "@/components/json-ld"
+import { SITE_URL } from "@/lib/site"
 
 interface BlogPostPageProps {
   params: {
@@ -48,6 +50,7 @@ export async function generateMetadata({
   return {
     title: `${post.title} | Apollo Group TV`,
     description: post.description,
+    alternates: { canonical: `/${post.slug}` },
     keywords: post.category ? [post.category, "IPTV", "Apollo Group TV"] : undefined,
     openGraph: {
       title: post.title,
@@ -76,10 +79,37 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     )
     .slice(0, 3)
 
+  const url = `${SITE_URL}/${post.slug}`
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${url}#article`,
+        headline: post.title,
+        description: post.description,
+        url,
+        mainEntityOfPage: url,
+        inLanguage: "en",
+        datePublished: post.date,
+        dateModified: post.date,
+        articleSection: post.category,
+        image: post.image || `${SITE_URL}/opengraph-image`,
+        author: { "@type": "Organization", name: post.author || "Apollo Group TV", url: SITE_URL },
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+      breadcrumb([
+        { name: "Blog", path: "/blog" },
+        { name: post.title, path: `/${post.slug}` },
+      ]),
+    ],
+  }
+
   return (
     <>
+      <JsonLd data={schema} />
       <Navbar />
-      <main className="min-h-screen bg-background">
+      <main className="min-h-screen">
         <BlogPostHero post={post} />
         <BlogPostContent post={post} />
         

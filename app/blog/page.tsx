@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { Zap } from "lucide-react"
 import Navbar from "@/components/navbar"
+import { PageSchema } from "@/components/json-ld"
 import BlogCard from "@/components/blog-card"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
@@ -9,6 +10,7 @@ import BlogHero from "@/components/blog-hero"
 import BlogCategories from "@/components/blog-categories"
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/blog" },
   title: "Apollo Group TV Blog | IPTV Tips, Guides & Updates",
   description: "Read the latest IPTV guides, setup tutorials, and industry news on the Apollo Group TV blog. Learn how to maximize your streaming experience.",
   keywords: ["IPTV blog", "streaming guides", "IPTV setup", "IPTV tips", "Apollo Group TV"],
@@ -27,8 +29,9 @@ export default async function BlogPage() {
 
   return (
     <>
+      <PageSchema name="Blog" path="/blog" />
       <Navbar />
-      <main className="min-h-screen bg-background">
+      <main className="min-h-screen">
         {/* Hero Section */}
         <BlogHero />
 

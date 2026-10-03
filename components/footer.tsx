@@ -1,131 +1,98 @@
 import Link from "next/link"
+import { MessageCircle } from "lucide-react"
+import Logo from "@/components/logo"
 import { whatsappLinks } from "@/lib/whatsapp-utils"
 
+const columns = [
+  {
+    title: "Apollo Group TV",
+    links: [
+      { label: "Home", href: "/" },
+      { label: "Channels List", href: "/channels-list" },
+      { label: "Pricing", href: "/#pricing" },
+      { label: "Setup Guide", href: "/#setup" },
+      { label: "Blog", href: "/blog" },
+    ],
+  },
+  {
+    title: "Guides",
+    links: [
+      { label: "Apollo TV Guide", href: "/apollo-tv" },
+      { label: "ApolloGroup TV Explained", href: "/apollo-group" },
+      { label: "Firestick Setup", href: "/how-to-install-iptv-on-firestick" },
+      { label: "4K Streaming Tips", href: "/4k-streaming-tips-maximize-viewing-experience" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "Reseller Program", href: "/#reseller" },
+      { label: "Contact Us", href: "/contact" },
+      { label: "Free 3-Hour Trial", href: whatsappLinks.footerTrial() },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Refund Policy", href: "/refund" },
+      { label: "Terms & Conditions", href: "/terms" },
+      { label: "DMCA Policy", href: "/dmca" },
+    ],
+  },
+]
+
 export default function Footer() {
-  const footerLinks = [
-    { label: "Apollo Group TV Home", href: "/" },
-    { label: "IPTV Subscription Pricing", href: "/#pricing" },
-    { label: "IPTV Reseller Program", href: "/#reseller" },
-    { label: "Contact Apollo Group TV", href: "/contact" },
-    { label: "Free IPTV Trial", href: whatsappLinks.footerTrial() },
-  ]
-
   return (
-    <footer className="border-t border-border/30 px-4 py-12">
-      <div className="mx-auto max-w-6xl">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          {/* Brand */}
+    <footer className="relative mt-10 overflow-hidden px-4 pb-10 pt-20">
+      <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,#ffb224,#ff4d8d,#3dd9ff,transparent)] opacity-60" />
+
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
           <div>
-            <span className="text-xl font-bold tracking-tight">
-              <span className="text-white">Apollo</span> <span className="text-green-500">Group TV</span>
-            </span>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Apollo Group TV is the #1 premium IPTV subscription service in 2026.
-              Stream 21,000+ live IPTV channels and 65,000+ VOD movies and series
-              in 4K UHD quality on any device. The best IPTV provider with
-              anti-freeze technology and 99.9% uptime.
+            <Logo />
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
+              Premium IPTV subscription with 21,000+ live channels and 65,000+ movies and series in up to 4K, on
+              Smart TV, Firestick, Android, iOS, MAG and PC.
             </p>
+            <Link
+              href={whatsappLinks.footerContact()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-[#25D366]/60"
+            >
+              <MessageCircle className="h-4 w-4 text-[#25D366]" />
+              +212 707 711 512
+            </Link>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="mb-4 text-sm font-semibold text-foreground">
-              Apollo Group TV Links
-            </h4>
-            <ul className="flex flex-col gap-2.5">
-              {footerLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Devices */}
-          <div>
-            <h4 className="mb-4 text-sm font-semibold text-foreground">
-              IPTV Compatible Devices
-            </h4>
-            <ul className="flex flex-col gap-2.5">
-              {[
-                "Smart TV IPTV (Samsung, LG)",
-                "Amazon Firestick IPTV",
-                "Android IPTV / MAG Box",
-                "Apple TV / iPhone IPTV",
-                "PC / Mac IPTV Streaming",
-              ].map((device) => (
-                <li
-                  key={device}
-                  className="text-sm text-muted-foreground"
-                >
-                  {device}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="mb-4 text-sm font-semibold text-foreground">
-              Contact Apollo Group TV
-            </h4>
-            <ul className="flex flex-col gap-2.5">
-              <li>
-                <Link
-                  href={whatsappLinks.footerContact()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
-                >
-                  WhatsApp: +212 707 711 512
-                </Link>
-              </li>
-              <li className="text-sm text-muted-foreground">
-                24/7 IPTV Customer Support
-              </li>
-              <li className="text-sm text-muted-foreground">
-                7-Day Money Back Guarantee
-              </li>
-              <li className="text-sm text-muted-foreground">
-                Instant IPTV Activation
-              </li>
-            </ul>
-          </div>
-
-          {/* Policies */}
-          <div>
-            <h4 className="mb-4 text-sm font-semibold text-foreground">
-              Legal
-            </h4>
-            <ul className="flex flex-col gap-2.5">
-              {[
-                { label: "Privacy Policy", href: "/privacy" },
-                { label: "Refund Policy", href: "/refund" },
-                { label: "Terms & Conditions", href: "/terms" },
-              ].map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {columns.map((col) => (
+            <div key={col.title}>
+              <h4 className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-foreground">{col.title}</h4>
+              <ul className="mt-5 flex flex-col gap-3">
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="group inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      <span className="mr-0 h-px w-0 bg-primary transition-all duration-300 group-hover:mr-2 group-hover:w-3" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        {/* SEO-rich footer text */}
-        <div className="mt-10 border-t border-border/30 pt-6">
-          <p className="text-center text-xs leading-relaxed text-muted-foreground">
-            {"\u00A9"} {new Date().getFullYear()} Apollo Group TV - Best Premium IPTV Subscription Service. All rights reserved. Apollo Group TV provides the highest quality IPTV streaming experience with 21,000+ live channels, 65,000+ movies and series, 4K UHD quality, anti-freeze technology, and support for Smart TV, Firestick, Android, iOS, and MAG Box. Apollo Group TV is not affiliated with any third-party streaming platforms.
-          </p>
+        <div aria-hidden className="mt-16 select-none text-center font-display text-[18vw] font-bold leading-none tracking-tighter text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.07)] lg:text-[11rem]">
+          APOLLO
+        </div>
+
+        <div className="mt-6 flex flex-col items-center justify-between gap-3 border-t border-white/[0.06] pt-6 text-xs text-muted-foreground sm:flex-row">
+          <p>© {new Date().getFullYear()} Apollo Group TV. All rights reserved.</p>
+          <p>Not affiliated with any third-party streaming platform.</p>
         </div>
       </div>
     </footer>

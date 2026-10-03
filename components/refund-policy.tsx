@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { RotateCcw } from "lucide-react"
+import { SITE_URL } from "@/lib/site"
 
 export default function RefundPolicy() {
   const sections = [
@@ -13,7 +14,7 @@ export default function RefundPolicy() {
     {
       title: "2. How to Request a Refund",
       content:
-        "To request a refund, please contact us through any of these channels:\n\n• WhatsApp: +212 707 711 512 (24/7 support)\n• Contact Form: https://appoloiptv.com/contact\n• Response Time: We process refund requests within 1-2 hours\n\nSimply let us know you want a refund, and we'll process it immediately.",
+        `To request a refund, please contact us through any of these channels:\n\n• WhatsApp: +212 707 711 512 (24/7 support)\n• Contact Form: ${SITE_URL}/contact\n• Response Time: We process refund requests within 1-2 hours\n\nSimply let us know you want a refund, and we'll process it immediately.`,
     },
     {
       title: "3. Refund Processing Time",
@@ -86,8 +87,8 @@ export default function RefundPolicy() {
           ))}
 
           {/* Guarantee Box */}
-          <div className="rounded-lg border-2 border-green-500/50 bg-green-500/10 p-6">
-            <p className="text-lg font-bold text-green-400">
+          <div className="rounded-lg border-2 border-primary/40 bg-primary/10 p-6">
+            <p className="text-lg font-bold text-primary">
               ✓ 100% Satisfaction Guarantee
             </p>
             <p className="mt-2 text-sm text-muted-foreground">

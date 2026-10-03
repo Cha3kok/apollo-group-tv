@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion"
 import { FileText } from "lucide-react"
+import { SITE_HOST, SITE_URL } from "@/lib/site"
 
 export default function TermsConditions() {
   const sections = [
     {
       title: "1. Agreement to Terms",
       content:
-        "By accessing and using Apollo Group TV (appoloiptv.com), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.",
+        `By accessing and using Apollo Group TV (${SITE_HOST}), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.`,
     },
     {
       title: "2. Service Description",
@@ -68,7 +69,7 @@ export default function TermsConditions() {
     {
       title: "13. Contact Information",
       content:
-        "For questions about these Terms and Conditions:\n\n• WhatsApp: +212 707 711 512 (24/7)\n• Contact Form: https://appoloiptv.com/contact\n• Website: https://appoloiptv.com\n\nWe're here to help and answer any questions you may have.",
+        `For questions about these Terms and Conditions:\n\n• WhatsApp: +212 707 711 512 (24/7)\n• Contact Form: ${SITE_URL}/contact\n• Website: ${SITE_URL}\n\nWe're here to help and answer any questions you may have.`,
     },
   ]
 

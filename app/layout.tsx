@@ -1,59 +1,45 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Geist_Mono } from 'next/font/google'
+import { Inter, Geist_Mono, Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { SITE_URL } from '@/lib/site'
+import SpaceBackground from '@/components/space-background'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' })
+
+const description =
+  'Apollo Group TV is a premium IPTV subscription with 21,000+ live channels and 65,000+ movies and series in up to 4K. Works on Smart TV, Firestick, Android, iOS and MAG. Plans from $15.99, free 3-hour trial.'
 
 export const metadata: Metadata = {
-  title: 'Apollo Group TV | #1 Best Premium IPTV Service 2026 - 21,000+ Channels in 4K',
-  description:
-    'Apollo Group TV is the best premium IPTV subscription service in 2026. Stream 21,000+ live channels and 65,000+ movies & series in 4K UHD. No buffering, 99.9% uptime. Works on Smart TV, Firestick, Android, iOS & MAG. Try a 3h free IPTV trial today!',
-  keywords: [
-    'Apollo Group TV',
-    'Apollo Group TV',
-    'best IPTV service',
-    'best IPTV service 2026',
-    'premium IPTV subscription',
-    'buy IPTV',
-    'IPTV provider',
-    'IPTV 4K',
-    'cheap IPTV subscription',
-    'IPTV Smarters',
-    'Firestick IPTV',
-    'IPTV free trial',
-    'IPTV channels list',
-    'IPTV streaming service',
-    'IPTV subscription',
-    'best IPTV provider',
-    'IPTV reseller',
-  ],
+  metadataBase: new URL(SITE_URL),
+  title: 'Apollo Group TV: Premium IPTV Subscription with 21,000+ Channels',
+  description,
+  applicationName: 'Apollo Group TV',
   openGraph: {
-    title: 'Apollo Group TV | #1 Best Premium IPTV Service 2026',
-    description:
-      'Stream 21,000+ live channels and 65,000+ movies in 4K UHD with Apollo Group TV. The most reliable IPTV subscription service with anti-freeze technology and 99.9% uptime.',
+    title: 'Apollo Group TV: Premium IPTV Subscription',
+    description,
+    url: '/',
     type: 'website',
     locale: 'en_US',
     siteName: 'Apollo Group TV',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Apollo Group TV | Best Premium IPTV Subscription 2026',
-    description:
-      'The #1 IPTV service with 21,000+ channels, 65,000+ VOD, anti-freeze tech & 4K quality. Try Apollo Group TV free for 24 hours.',
+    title: 'Apollo Group TV: Premium IPTV Subscription',
+    description,
   },
   robots: {
     index: true,
     follow: true,
-  },
-  alternates: {
-    canonical: 'https://appoloiptv.com',
+    'max-image-preview': 'large',
+    'max-snippet': -1,
   },
 }
 
 export const viewport: Viewport = {
-  themeColor: '#050505',
+  themeColor: '#05060f',
   width: 'device-width',
   initialScale: 1,
 }
@@ -64,8 +50,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}>
       <body className="font-sans antialiased">
+        <SpaceBackground />
         {children}
         <Analytics />
       </body>

@@ -1,10 +1,12 @@
 import { Metadata } from "next"
 import Navbar from "@/components/navbar"
+import { PageSchema } from "@/components/json-ld"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import ContactForm from "@/components/contact-form"
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/contact" },
   title: "Contact Apollo Group TV | IPTV Support & Inquiries",
   description: "Get in touch with Apollo Group TV. Contact us for IPTV support, sales inquiries, reseller program, or general questions. Available 24/7 via WhatsApp.",
   keywords: ["contact us", "support", "IPTV help", "customer service", "Apollo Group TV"],
@@ -18,8 +20,9 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
+      <PageSchema name="Contact Apollo Group TV" path="/contact" />
       <Navbar />
-      <main className="min-h-screen bg-background">
+      <main className="min-h-screen">
         <ContactForm />
       </main>
       <Footer />

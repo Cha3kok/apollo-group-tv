@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion"
 import { Shield } from "lucide-react"
+import { SITE_HOST, SITE_URL } from "@/lib/site"
 
 export default function PrivacyPolicy() {
   const sections = [
     {
       title: "1. Introduction",
       content:
-        "Apollo Group TV ('we', 'us', 'our', or 'Company') operates the appoloiptv.com website. This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our service and the choices you have associated with that data.",
+        `Apollo Group TV ('we', 'us', 'our', or 'Company') operates the ${SITE_HOST} website. This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our service and the choices you have associated with that data.`,
     },
     {
       title: "2. Information Collection and Use",
@@ -33,7 +34,7 @@ export default function PrivacyPolicy() {
     {
       title: "6. Contact Us",
       content:
-        "If you have any questions about this Privacy Policy, please contact us via:\n\n• WhatsApp: +212 707 711 512\n• Contact Form: https://appoloiptv.com/contact\n• Email: We respond promptly to all inquiries",
+        `If you have any questions about this Privacy Policy, please contact us via:\n\n• WhatsApp: +212 707 711 512\n• Contact Form: ${SITE_URL}/contact\n• Email: We respond promptly to all inquiries`,
     },
   ]
 

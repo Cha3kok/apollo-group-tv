@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { MonitorPlay, Flame, Smartphone, Apple, Download, Settings, Play } from "lucide-react"
+import SectionHeading from "@/components/section-heading"
 
 const tabs = [
   {
@@ -100,68 +101,90 @@ export default function InstallationTabs() {
   const activeData = tabs.find((t) => t.id === activeTab)!
 
   return (
-    <section className="relative px-4 py-20">
-      <div className="mx-auto max-w-5xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <h2 className="text-balance text-3xl font-bold text-foreground sm:text-4xl">
-            How to Set Up <span className="text-primary">Apollo Group TV</span> on Any Device
-          </h2>
-          <p className="mt-4 text-pretty text-muted-foreground">
-            Install Apollo Group TV in 3 easy steps on Smart TV, Firestick, Android, iOS, or MAG Box. No technical skills needed. Our IPTV setup guide works for IPTV Smarters, TiviMate, and all popular IPTV players.
-          </p>
-        </motion.div>
+    <section id="setup" className="relative px-4 py-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading
+          eyebrow="Setup in 5 minutes"
+          title={
+            <>
+              How to Set Up <span className="text-gradient">Apollo Group TV</span> on Any Device
+            </>
+          }
+          intro="Three steps on Smart TV, Firestick, Android, iOS or MAG Box. Works with IPTV Smarters, TiviMate and every popular IPTV player."
+        />
 
         {/* Tab buttons */}
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium transition-all ${
-                activeTab === tab.id
-                  ? "neon-glow bg-primary text-primary-foreground"
-                  : "glass text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <tab.icon className="h-4 w-4" />
-              {tab.label}
-            </button>
-          ))}
+        <div className="mt-12 flex justify-center">
+          <div className="glass inline-flex flex-wrap justify-center gap-1 rounded-2xl p-1.5">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors sm:px-5 ${
+                  activeTab === tab.id ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {activeTab === tab.id && (
+                  <motion.span
+                    layoutId="setup-tab"
+                    className="absolute inset-0 -z-10 rounded-xl bg-[linear-gradient(100deg,#ffd56b,#ffb224,#ff7a45)] shadow-[0_8px_24px_-8px_rgba(255,140,50,0.8)]"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
+                )}
+                <tab.icon className="h-4 w-4" />
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Steps */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="mt-10 grid gap-6 md:grid-cols-3"
-          >
-            {activeData.steps.map((step, index) => (
-              <div key={step.title} className="glass relative rounded-2xl p-6">
-                <div className="mb-4 flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-sm font-bold text-primary">
-                    {index + 1}
+        <div className="relative mt-12">
+          {/* connecting line */}
+          <div aria-hidden className="absolute left-[16.6%] right-[16.6%] top-9 hidden h-px md:block">
+            <div className="h-full w-full bg-white/10" />
+            <motion.div
+              key={activeTab}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0 origin-left bg-[linear-gradient(90deg,#ffb224,#ff4d8d,#3dd9ff)]"
+            />
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial="hidden"
+              animate="show"
+              exit={{ opacity: 0, y: -12, transition: { duration: 0.2 } }}
+              variants={{ show: { transition: { staggerChildren: 0.12 } } }}
+              className="grid gap-5 md:grid-cols-3"
+            >
+              {activeData.steps.map((step, index) => (
+                <motion.div
+                  key={step.title}
+                  variants={{
+                    hidden: { opacity: 0, y: 24 },
+                    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+                  }}
+                  className="relative flex flex-col items-center text-center"
+                >
+                  <span className="relative z-10 flex h-[72px] w-[72px] items-center justify-center rounded-full border border-white/10 bg-card shadow-[0_0_0_8px_var(--background)]">
+                    <step.icon className="h-7 w-7 text-primary" />
+                    <span className="absolute -right-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full bg-accent font-display text-xs font-bold text-accent-foreground">
+                      {index + 1}
+                    </span>
                   </span>
-                  <step.icon className="h-5 w-5 text-primary" />
-                </div>
-                <h3 className="mb-2 text-lg font-semibold text-foreground">
-                  {step.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+                  <div className="glass mt-6 w-full flex-1 rounded-3xl p-6">
+                    <h3 className="text-lg font-semibold text-foreground">{step.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   )

@@ -1,162 +1,136 @@
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, ChevronDown, Globe } from "lucide-react"
+import { useEffect, useState } from "react"
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion"
+import { Menu, X, Zap } from "lucide-react"
 import Link from "next/link"
+import Logo from "@/components/logo"
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Channels List", href: "/channels-list" },
+  { label: "Channels", href: "/channels-list" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "Setup", href: "/#setup" },
+  { label: "Reseller", href: "/#reseller" },
   { label: "Blog", href: "/blog" },
-  { label: "IPTV Pricing", href: "/#pricing" },
-  { label: "IPTV Reseller", href: "/#reseller" },
-  { label: "Contact Us", href: "/contact" },
-]
-
-const languages = [
-  { code: "EN", label: "English", flag: "🇬🇧" },
-  { code: "FR", label: "Fran\u00e7ais", flag: "🇫🇷" },
-  { code: "AR", label: "\u0627\u0644\u0639\u0631\u0628\u064a\u0629", flag: "🇲🇦" },
-  { code: "ES", label: "Espa\u00f1ol", flag: "🇪🇸" },
+  { label: "Contact", href: "/contact" },
 ]
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [langOpen, setLangOpen] = useState(false)
-  const [selectedLang, setSelectedLang] = useState(languages[0])
+  const [scrolled, setScrolled] = useState(false)
+  const [hovered, setHovered] = useState<string | null>(null)
+  const { scrollYProgress } = useScroll()
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 glass"
+    <motion.header
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <h1 className="text-xl font-bold tracking-tight">
-              <span className="text-white">Apollo</span> <span className="text-green-500">Group TV</span>
-            </h1>
-          </Link>
+      <nav
+        className={`relative mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl px-4 transition-all duration-500 sm:px-5 ${
+          scrolled ? "glass shadow-[0_10px_40px_-15px_rgba(0,0,0,0.8)]" : "border border-transparent"
+        }`}
+      >
+        <Logo />
 
-          {/* Desktop Nav */}
-          <div className="hidden items-center gap-8 md:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </Link>
-            ))}
-
-            {/* Language Toggle */}
-            <div className="relative">
-              <button
-                onClick={() => setLangOpen(!langOpen)}
-                className="flex items-center gap-1.5 rounded-lg border border-border/50 px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                aria-label="Select language"
-              >
-                <Globe className="h-4 w-4" />
-                <span>{selectedLang.flag}</span>
-                <span>{selectedLang.code}</span>
-                <ChevronDown className="h-3 w-3" />
-              </button>
-
-              <AnimatePresence>
-                {langOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    className="glass absolute right-0 mt-2 w-40 overflow-hidden rounded-lg"
-                  >
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => {
-                          setSelectedLang(lang)
-                          setLangOpen(false)
-                        }}
-                        className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                      >
-                        <span>{lang.flag}</span>
-                        <span>{lang.label}</span>
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* CTA */}
+        <div className="hidden items-center gap-1 lg:flex" onMouseLeave={() => setHovered(null)}>
+          {navLinks.map((link) => (
             <Link
-              href="/#pricing"
-              className="neon-glow rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110"
+              key={link.label}
+              href={link.href}
+              onMouseEnter={() => setHovered(link.label)}
+              className="relative rounded-lg px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              Buy IPTV
+              {hovered === link.label && (
+                <motion.span
+                  layoutId="nav-hover"
+                  className="absolute inset-0 -z-10 rounded-lg bg-white/[0.06]"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              {link.label}
             </Link>
-          </div>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            className="text-foreground md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          ))}
         </div>
-      </div>
 
-      {/* Mobile Menu */}
+        <div className="hidden items-center gap-3 lg:flex">
+          <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            Servers online
+          </span>
+          <Link href="/#pricing" className="btn-flame flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold">
+            <Zap className="h-4 w-4" />
+            Buy IPTV
+          </Link>
+        </div>
+
+        <button
+          className="flex h-10 w-10 items-center justify-center rounded-xl text-foreground lg:hidden"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+
+        <motion.span
+          style={{ scaleX: progress }}
+          className="absolute inset-x-4 -bottom-px h-px origin-left bg-[linear-gradient(90deg,#ffb224,#ff4d8d,#3dd9ff)]"
+        />
+      </nav>
+
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="glass border-t border-border/30 md:hidden"
+            initial={{ opacity: 0, y: -12, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.98 }}
+            transition={{ duration: 0.25 }}
+            className="glass mx-auto mt-2 max-w-7xl rounded-2xl p-3 lg:hidden"
           >
-            <div className="flex flex-col gap-1 px-4 py-4">
-              {navLinks.map((link) => (
-                <Link
+            <div className="flex flex-col">
+              {navLinks.map((link, i) => (
+                <motion.div
                   key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.04 }}
                 >
-                  {link.label}
-                </Link>
-              ))}
-              <div className="mt-2 flex items-center gap-2 px-3">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => setSelectedLang(lang)}
-                    className={`rounded-md px-2 py-1 text-xs transition-colors ${selectedLang.code === lang.code
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                      }`}
+                  <Link
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block rounded-xl px-4 py-3 text-base font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
                   >
-                    {lang.flag} {lang.code}
-                  </button>
-                ))}
-              </div>
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
               <Link
                 href="/#pricing"
-                className="neon-glow mt-2 rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-semibold text-primary-foreground"
+                onClick={() => setMobileMenuOpen(false)}
+                className="btn-flame mt-2 flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-base font-semibold"
               >
+                <Zap className="h-4 w-4" />
                 Buy IPTV
               </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </motion.header>
   )
 }
