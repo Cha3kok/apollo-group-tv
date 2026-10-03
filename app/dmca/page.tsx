@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { pageMeta } from "@/lib/seo"
 import Link from "next/link"
 import { MessageCircle, ShieldCheck } from "lucide-react"
 import Navbar from "@/components/navbar"
@@ -8,12 +9,12 @@ import WhatsAppButton from "@/components/whatsapp-button"
 import { SITE_HOST } from "@/lib/site"
 import { whatsappLinks } from "@/lib/whatsapp-utils"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "DMCA Policy | Apollo Group TV",
   description:
     "Apollo Group TV respects intellectual property rights. Read our DMCA policy to learn how to submit a copyright infringement notice or a counter-notice.",
-  alternates: { canonical: "/dmca" },
-}
+  path: "/dmca",
+})
 
 const lastUpdated = "October 3, 2026"
 

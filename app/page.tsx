@@ -11,15 +11,19 @@ import FAQ from "@/components/faq"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import { Metadata } from "next"
+import { pageMeta } from "@/lib/seo"
 import { LAST_UPDATED, SITE, SITE_URL } from "@/lib/site"
 import { JsonLd } from "@/components/json-ld"
 import KeyFacts from "@/components/key-facts"
-import { PLANS } from "@/lib/plans"
+import { PLANS, PRICE_VALID_UNTIL } from "@/lib/plans"
 import { FAQS } from "@/lib/faqs"
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/" },
-}
+export const metadata: Metadata = pageMeta({
+  title: "Apollo Group TV: Premium IPTV Subscription with 21,000+ Channels",
+  description:
+    "Apollo Group TV: 21,000+ live channels and 65,000+ movies & series in 4K on Smart TV, Firestick, Android and iOS. From $15.99/month, free 3-hour trial.",
+  path: "/",
+})
 
 const description =
   "Apollo Group TV is a premium IPTV subscription with 21,000+ live channels and 65,000+ movies and series in up to 4K on Smart TV, Firestick, Android, iOS and MAG."
@@ -75,7 +79,7 @@ const schema = {
         price: plan.price.toFixed(2),
         priceCurrency: "USD",
         availability: "https://schema.org/InStock",
-        priceValidUntil: "2026-12-31",
+        priceValidUntil: PRICE_VALID_UNTIL,
         url: `${SITE_URL}/#pricing`,
       })),
     },

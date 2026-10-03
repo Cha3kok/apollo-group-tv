@@ -7,6 +7,74 @@ interface BlogPostContentProps {
   post: BlogPost
 }
 
+type Block = { type: "h2" | "h3" | "p"; text: string } | { type: "ul" | "ol"; items: string[] }
+
+/** Renders **bold** inside a line of text. */
+function inline(text: string) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") ? (
+      <strong key={i} className="font-semibold text-foreground">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      part
+    ),
+  )
+}
+
+/** Minimal line-based markdown for the built-in fallback posts: ## / ### headings, - and 1. lists, paragraphs, **bold**. */
+function renderMarkdown(content: string) {
+  const blocks: Block[] = []
+  for (const raw of content.split("\n")) {
+    const line = raw.trim()
+    const last = blocks[blocks.length - 1]
+    if (!line) continue
+    const heading = line.match(/^(#{2,6})\s+(.*)$/)
+    const bullet = line.match(/^[-*]\s+(.*)$/)
+    const numbered = line.match(/^\d+[.)]\s+(.*)$/)
+    if (heading) blocks.push({ type: heading[1].length === 2 ? "h2" : "h3", text: heading[2] })
+    else if (bullet) last?.type === "ul" ? last.items.push(bullet[1]) : blocks.push({ type: "ul", items: [bullet[1]] })
+    else if (numbered) last?.type === "ol" ? last.items.push(numbered[1]) : blocks.push({ type: "ol", items: [numbered[1]] })
+    else blocks.push({ type: "p", text: line })
+  }
+
+  return blocks.map((block, i) => {
+    switch (block.type) {
+      case "h2":
+        return (
+          <h2 key={i} className="pt-6 text-2xl font-bold">
+            {inline(block.text)}
+          </h2>
+        )
+      case "h3":
+        return (
+          <h3 key={i} className="pt-3 text-xl font-semibold">
+            {inline(block.text)}
+          </h3>
+        )
+      case "ul":
+      case "ol": {
+        const List = block.type
+        return (
+          <List key={i} className={`ml-6 space-y-2 ${block.type === "ul" ? "list-disc" : "list-decimal"} marker:text-primary`}>
+            {block.items.map((item, j) => (
+              <li key={j} className="pl-1 text-muted-foreground">
+                {inline(item)}
+              </li>
+            ))}
+          </List>
+        )
+      }
+      default:
+        return (
+          <p key={i} className="text-base leading-relaxed text-muted-foreground">
+            {inline(block.text)}
+          </p>
+        )
+    }
+  })
+}
+
 export default function BlogPostContent({ post }: BlogPostContentProps) {
   // Check if content is HTML or markdown
   const isHtml = post.content.includes("<") && post.content.includes(">")
@@ -48,40 +116,7 @@ export default function BlogPostContent({ post }: BlogPostContentProps) {
             />
           ) : (
             // Render markdown content for fallback posts
-            <div className="space-y-6 text-foreground">
-              {post.content.split("\n\n").map((paragraph, index) => {
-                if (paragraph.startsWith("##")) {
-                  return (
-                    <h2 key={index} className="text-2xl font-bold mt-8 mb-4">
-                      {paragraph.replace("## ", "")}
-                    </h2>
-                  )
-                }
-                if (paragraph.startsWith("###")) {
-                  return (
-                    <h3 key={index} className="text-xl font-semibold mt-6 mb-3">
-                      {paragraph.replace("### ", "")}
-                    </h3>
-                  )
-                }
-                if (paragraph.startsWith("-")) {
-                  return (
-                    <ul key={index} className="space-y-2 ml-6 list-disc">
-                      {paragraph.split("\n").map((item, i) => (
-                        <li key={i} className="text-muted-foreground">
-                          {item.replace("- ", "")}
-                        </li>
-                      ))}
-                    </ul>
-                  )
-                }
-                return (
-                  <p key={index} className="text-muted-foreground leading-relaxed text-base">
-                    {paragraph}
-                  </p>
-                )
-              })}
-            </div>
+            <div className="space-y-5 text-foreground">{renderMarkdown(post.content)}</div>
           )}
         </motion.article>
       </div>

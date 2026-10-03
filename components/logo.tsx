@@ -3,7 +3,7 @@ import Link from "next/link"
 /** Apollo Group TV mark: a planet with an orbiting gold satellite, next to the wordmark. */
 export default function Logo({ className = "" }: { className?: string }) {
   return (
-    <Link href="/" aria-label="Apollo Group TV home" className={`group flex items-center gap-2.5 ${className}`}>
+    <Link href="/" className={`group flex items-center gap-2.5 ${className}`}>
       <span className="relative flex h-9 w-9 items-center justify-center">
         <svg viewBox="0 0 40 40" className="h-9 w-9" aria-hidden>
           <defs>
@@ -21,7 +21,7 @@ export default function Logo({ className = "" }: { className?: string }) {
         </span>
       </span>
       <span className="flex flex-col leading-none">
-        <span className="font-display text-lg font-bold tracking-tight text-foreground">Apollo</span>
+        <span className="font-display text-lg font-bold tracking-tight text-foreground">Apollo</span>{" "}
         <span className="font-mono text-[9px] font-medium uppercase tracking-[0.32em] text-primary">Group TV</span>
       </span>
     </Link>

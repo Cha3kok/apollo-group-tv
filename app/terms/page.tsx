@@ -1,21 +1,17 @@
 import { Metadata } from "next"
+import { pageMeta } from "@/lib/seo"
 import Navbar from "@/components/navbar"
 import { PageSchema } from "@/components/json-ld"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import TermsConditions from "@/components/terms-conditions"
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/terms" },
+export const metadata: Metadata = pageMeta({
   title: "Terms and Conditions | Apollo Group TV",
-  description: "Apollo Group TV Terms and Conditions - Read our complete service terms.",
-  keywords: ["terms and conditions", "terms of service", "Apollo Group TV"],
-  openGraph: {
-    title: "Terms and Conditions | Apollo Group TV",
-    description: "Our complete terms and conditions",
-    type: "website",
-  },
-}
+  description:
+    "The terms that apply when you use the Apollo Group TV website and IPTV subscription: accounts, payments, acceptable use, refunds and liability.",
+  path: "/terms",
+})
 
 export default function TermsPage() {
   return (

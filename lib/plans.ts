@@ -33,3 +33,6 @@ export const perMonth = (plan: PricingPlan) => plan.price / plan.months
 
 export const savingsVsMonthly = (plan: PricingPlan) =>
   Math.round((1 - perMonth(plan) / PLANS[0].price) * 100)
+
+/** Offer expiry for structured data: one year from the build, so prices never show as expired after a redeploy. */
+export const PRICE_VALID_UNTIL = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)

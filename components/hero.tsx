@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { AnimatePresence, animate, motion, useMotionValue, useSpring, useTransform, type MotionValue } from "framer-motion"
 import { Apple, Flame, Laptop, MonitorPlay, Play, ShieldCheck, Smartphone, Star, Tv, Zap } from "lucide-react"
 import Link from "next/link"
@@ -35,7 +35,7 @@ function RotatingWord() {
   }, [])
 
   return (
-    <span className="relative inline-flex h-[1.25em] overflow-hidden align-bottom">
+    <span className="relative flex h-[1.25em] justify-center overflow-hidden align-bottom sm:inline-flex lg:justify-start">
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={rotatingWords[index]}
@@ -159,16 +159,31 @@ function LiveScreen() {
   )
 }
 
-/** A device chip travelling an elliptical orbit: in front of the screen on the lower half, behind it on the upper half. */
-function OrbitChip({ t, offset, icon: Icon, label }: { t: MotionValue<number>; offset: number; icon: typeof Tv; label: string }) {
-  const left = useTransform(t, (v) => `${(50 + 60 * Math.cos(v + offset)).toFixed(2)}%`)
-  const top = useTransform(t, (v) => `${(50 + 64 * Math.sin(v + offset)).toFixed(2)}%`)
+/** A device chip travelling an elliptical orbit: in front of the screen on the lower half, behind it on the upper half.
+ *  Moved with transforms (x/y), not left/top, so the animation never counts as a layout shift. */
+function OrbitChip({
+  t,
+  w,
+  h,
+  offset,
+  icon: Icon,
+  label,
+}: {
+  t: MotionValue<number>
+  w: MotionValue<number>
+  h: MotionValue<number>
+  offset: number
+  icon: typeof Tv
+  label: string
+}) {
+  const x = useTransform([t, w], ([v, width]: number[]) => 0.6 * width * Math.cos(v + offset))
+  const y = useTransform([t, h], ([v, height]: number[]) => 0.64 * height * Math.sin(v + offset))
   const zIndex = useTransform(t, (v) => (Math.sin(v + offset) > 0 ? 30 : 0))
   const scale = useTransform(t, (v) => 0.8 + 0.2 * ((Math.sin(v + offset) + 1) / 2))
   const opacity = useTransform(t, (v) => 0.45 + 0.55 * ((Math.sin(v + offset) + 1) / 2))
 
   return (
-    <motion.span aria-hidden className="absolute" style={{ left, top, zIndex }}>
+    <motion.span aria-hidden className="absolute left-1/2 top-1/2" style={{ x, y, zIndex }}>
       <motion.span
         style={{ scale, opacity }}
         className="glass flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[11px] font-medium text-foreground shadow-lg"
@@ -186,18 +201,32 @@ function HeroVisual() {
   const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [9, -9]), { stiffness: 120, damping: 18 })
   const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-11, 11]), { stiffness: 120, damping: 18 })
   const t = useMotionValue(0)
+  const w = useMotionValue(0)
+  const h = useMotionValue(0)
+  const boxRef = useRef<HTMLDivElement>(null)
   // orbit positions are float-heavy inline styles; render them client-side only to avoid hydration mismatches
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    const controls = animate(t, Math.PI * 2, { duration: 36, ease: "linear", repeat: Infinity })
-    return () => controls.stop()
-  }, [t])
+    const box = boxRef.current
+    const observer = new ResizeObserver(() => {
+      if (!box) return
+      w.set(box.offsetWidth)
+      h.set(box.offsetHeight)
+    })
+    if (box) observer.observe(box)
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const controls = reduced ? null : animate(t, Math.PI * 2, { duration: 36, ease: "linear", repeat: Infinity })
+    return () => {
+      controls?.stop()
+      observer.disconnect()
+    }
+  }, [t, w, h])
 
   return (
     <div
+      ref={boxRef}
       className="relative mx-auto w-full max-w-[560px] [perspective:1200px]"
       onMouseMove={(e) => {
         const r = e.currentTarget.getBoundingClientRect()
@@ -214,7 +243,7 @@ function HeroVisual() {
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[100%] w-[96%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-white/[0.05]" />
       {mounted &&
         orbitDevices.map((d, i) => (
-          <OrbitChip key={d.label} t={t} offset={(i / orbitDevices.length) * Math.PI * 2} icon={d.icon} label={d.label} />
+          <OrbitChip key={d.label} t={t} w={w} h={h} offset={(i / orbitDevices.length) * Math.PI * 2} icon={d.icon} label={d.label} />
         ))}
 
       <motion.div style={{ rotateX, rotateY, transformStyle: "preserve-3d" }} className="relative z-10">
@@ -280,14 +309,11 @@ export default function Hero() {
             <span className="text-xs font-medium text-muted-foreground sm:text-sm">Buffer-free 4K streaming with Anti-Freeze</span>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease }}
+          <h1
             className="mt-7 text-balance text-[2.6rem] font-bold leading-[1.02] text-foreground sm:text-6xl xl:text-7xl"
           >
             Apollo Group TV: <span className="text-gradient">Premium IPTV</span> Subscription
-          </motion.h1>
+          </h1>
 
           <motion.p
             initial={{ opacity: 0, y: 24 }}
@@ -298,15 +324,12 @@ export default function Hero() {
             21,000+ channels of <RotatingWord />
           </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease }}
+          <p
             className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0"
           >
             Stream live TV, sports, movies and series with 65,000+ on-demand titles, anti-freeze technology and
             99.9% uptime on every device you own.
-          </motion.p>
+          </p>
 
           <motion.div
             initial={{ opacity: 0, y: 24 }}

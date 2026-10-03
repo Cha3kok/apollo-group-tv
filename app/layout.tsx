@@ -10,7 +10,7 @@ const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono'
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' })
 
 const description =
-  'Apollo Group TV is a premium IPTV subscription with 21,000+ live channels and 65,000+ movies and series in up to 4K. Works on Smart TV, Firestick, Android, iOS and MAG. Plans from $15.99, free 3-hour trial.'
+  'Apollo Group TV: 21,000+ live channels and 65,000+ movies & series in 4K on Smart TV, Firestick, Android and iOS. From $15.99/month, free 3-hour trial.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

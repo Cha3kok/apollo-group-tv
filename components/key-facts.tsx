@@ -41,10 +41,10 @@ export default function KeyFacts() {
             {PLANS[0].price} a month, with a free 3-hour trial.
           </p>
           <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">
-            People also search for it as <Link href="/apollo-tv" className="text-primary hover:underline">Apollo TV</Link>,
+            People also search for it as <Link href="/apollo-tv" className="text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary">Apollo TV</Link>,
             ApolloGroup TV or <span className="whitespace-nowrap">apollogrouptv</span>. It is a TV streaming service and
             is not connected to other companies named{" "}
-            <Link href="/apollo-group" className="text-primary hover:underline">Apollo Group</Link>.
+            <Link href="/apollo-group" className="text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary">Apollo Group</Link>.
           </p>
           <p className="mt-6 flex items-center gap-2 text-xs text-muted-foreground">
             <CalendarCheck className="h-4 w-4 text-accent" />

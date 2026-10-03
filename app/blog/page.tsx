@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { pageMeta } from "@/lib/seo"
 import { Zap } from "lucide-react"
 import Navbar from "@/components/navbar"
 import { PageSchema } from "@/components/json-ld"
@@ -9,17 +10,12 @@ import { getBlogPosts, getAllCategories } from "@/lib/blog-data"
 import BlogHero from "@/components/blog-hero"
 import BlogCategories from "@/components/blog-categories"
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/blog" },
-  title: "Apollo Group TV Blog | IPTV Tips, Guides & Updates",
-  description: "Read the latest IPTV guides, setup tutorials, and industry news on the Apollo Group TV blog. Learn how to maximize your streaming experience.",
-  keywords: ["IPTV blog", "streaming guides", "IPTV setup", "IPTV tips", "Apollo Group TV"],
-  openGraph: {
-    title: "Apollo Group TV Blog",
-    description: "Expert guides and tips for IPTV streaming",
-    type: "website",
-  },
-}
+export const metadata: Metadata = pageMeta({
+  title: "Apollo Group TV Blog: IPTV Setup Guides & Streaming Tips",
+  description:
+    "IPTV setup guides, device tutorials and streaming tips from the Apollo Group TV team: Firestick, Smart TV, 4K quality, sports and the reseller program.",
+  path: "/blog",
+})
 
 export default async function BlogPage() {
   const [posts, categories] = await Promise.all([

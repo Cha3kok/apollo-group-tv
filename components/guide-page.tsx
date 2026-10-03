@@ -94,7 +94,7 @@ export function Table({ head, rows }: { head: string[]; rows: ReactNode[][] }) {
 
 export function A({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="font-medium text-primary underline-offset-4 hover:underline">
+    <Link href={href} className="font-medium text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary">
       {children}
     </Link>
   )

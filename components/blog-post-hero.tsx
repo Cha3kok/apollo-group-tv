@@ -12,7 +12,6 @@ interface BlogPostHeroProps {
 export default function BlogPostHero({ post }: BlogPostHeroProps) {
   return (
     <section className="relative px-4 py-20 pt-32">
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[120px]" />
 
       <div className="relative mx-auto max-w-3xl">
         {/* Back Link */}

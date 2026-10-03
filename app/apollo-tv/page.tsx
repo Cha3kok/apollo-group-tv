@@ -1,17 +1,18 @@
 import { Metadata } from "next"
+import { pageMeta } from "@/lib/seo"
 import GuidePage, { A, Bullets, P, Steps, Table } from "@/components/guide-page"
 import { CHANNEL_COUNTRIES } from "@/lib/channel-countries"
 import { PLANS, perMonth, savingsVsMonthly } from "@/lib/plans"
 
 const description =
-  "Apollo TV explained: what Apollo Group TV is, how it works, channels, prices from $15.99, supported devices, setup on Firestick and Smart TV, and internet speed you need."
+  "Apollo TV explained: what Apollo Group TV is, how it works, channels, prices from $15.99, devices, Firestick setup and the internet speed you need."
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Apollo TV: Complete Guide to Apollo Group TV IPTV (2026)",
   description,
-  alternates: { canonical: "/apollo-tv" },
-  openGraph: { title: "Apollo TV: Complete Guide to Apollo Group TV IPTV", description, url: "/apollo-tv", type: "article" },
-}
+  path: "/apollo-tv",
+  type: "article",
+})
 
 const topCountries = CHANNEL_COUNTRIES.filter((c) => c.region !== "special").slice(0, 8)
 

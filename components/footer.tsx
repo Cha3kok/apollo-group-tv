@@ -68,7 +68,7 @@ export default function Footer() {
 
           {columns.map((col) => (
             <div key={col.title}>
-              <h4 className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-foreground">{col.title}</h4>
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-foreground">{col.title}</p>
               <ul className="mt-5 flex flex-col gap-3">
                 {col.links.map((link) => (
                   <li key={link.label}>

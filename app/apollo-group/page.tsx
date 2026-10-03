@@ -1,16 +1,17 @@
 import { Metadata } from "next"
+import { pageMeta } from "@/lib/seo"
 import GuidePage, { A, Bullets, P, Steps, Table } from "@/components/guide-page"
 import { PLANS, perMonth } from "@/lib/plans"
 
 const description =
-  "Searching for ApolloGroup TV? Apollo Group TV is an IPTV service with 21,000+ channels and 65,000+ movies in 4K. Here's how it differs from other Apollo Group companies, plus plans and setup."
+  "ApolloGroup TV is an IPTV service with 21,000+ channels and 65,000+ movies in 4K. How it differs from other Apollo Group companies, plus plans and setup."
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "ApolloGroup TV: Apollo Group IPTV Plans, Setup & FAQ",
   description,
-  alternates: { canonical: "/apollo-group" },
-  openGraph: { title: "ApolloGroup TV: Apollo Group IPTV Explained", description, url: "/apollo-group", type: "article" },
-}
+  path: "/apollo-group",
+  type: "article",
+})
 
 const faqs = [
   {

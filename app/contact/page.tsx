@@ -1,21 +1,17 @@
 import { Metadata } from "next"
+import { pageMeta } from "@/lib/seo"
 import Navbar from "@/components/navbar"
 import { PageSchema } from "@/components/json-ld"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import ContactForm from "@/components/contact-form"
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/contact" },
-  title: "Contact Apollo Group TV | IPTV Support & Inquiries",
-  description: "Get in touch with Apollo Group TV. Contact us for IPTV support, sales inquiries, reseller program, or general questions. Available 24/7 via WhatsApp.",
-  keywords: ["contact us", "support", "IPTV help", "customer service", "Apollo Group TV"],
-  openGraph: {
-    title: "Contact Apollo Group TV",
-    description: "24/7 IPTV customer support and inquiries",
-    type: "website",
-  },
-}
+export const metadata: Metadata = pageMeta({
+  title: "Contact Apollo Group TV: 24/7 IPTV Support",
+  description:
+    "Contact Apollo Group TV for support, sales, the free 3-hour trial or the reseller program. We answer 24/7 on WhatsApp in English, French, Arabic and Spanish.",
+  path: "/contact",
+})
 
 export default function ContactPage() {
   return (

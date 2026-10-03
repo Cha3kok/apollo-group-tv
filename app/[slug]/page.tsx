@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { pageMeta } from "@/lib/seo"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import Navbar from "@/components/navbar"
@@ -47,19 +48,14 @@ export async function generateMetadata({
     }
   }
 
-  return {
-    title: `${post.title} | Apollo Group TV`,
+  const suffixed = `${post.title} | Apollo Group TV`
+  return pageMeta({
+    title: suffixed.length <= 60 ? suffixed : post.title,
     description: post.description,
-    alternates: { canonical: `/${post.slug}` },
-    keywords: post.category ? [post.category, "IPTV", "Apollo Group TV"] : undefined,
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      type: "article",
-      publishedTime: post.date,
-      authors: [post.author],
-    },
-  }
+    path: `/${post.slug}`,
+    type: "article",
+    publishedTime: post.date,
+  })
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {

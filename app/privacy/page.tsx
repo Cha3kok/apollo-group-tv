@@ -1,21 +1,17 @@
 import { Metadata } from "next"
+import { pageMeta } from "@/lib/seo"
 import Navbar from "@/components/navbar"
 import { PageSchema } from "@/components/json-ld"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import PrivacyPolicy from "@/components/privacy-policy"
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/privacy" },
+export const metadata: Metadata = pageMeta({
   title: "Privacy Policy | Apollo Group TV",
-  description: "Apollo Group TV Privacy Policy - How we protect your data and privacy.",
-  keywords: ["privacy policy", "data protection", "GDPR", "Apollo Group TV"],
-  openGraph: {
-    title: "Privacy Policy | Apollo Group TV",
-    description: "Our commitment to protecting your privacy",
-    type: "website",
-  },
-}
+  description:
+    "How Apollo Group TV collects, uses and protects your personal data when you visit the website, contact support or buy an IPTV subscription.",
+  path: "/privacy",
+})
 
 export default function PrivacyPage() {
   return (
